@@ -15,6 +15,7 @@ class ContactRepository {
   }
 
   Future<void> createContact(Contact contact) async {
+    print(contact);
     try {
       await _customDio.dio.post(
         url,

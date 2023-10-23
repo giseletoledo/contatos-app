@@ -1,3 +1,5 @@
+import 'package:uuid/uuid.dart';
+
 class Contact {
   List<Contacts>? results;
 
@@ -37,9 +39,14 @@ class Contacts {
       this.phone,
       this.email,
       this.urlavatar,
-      this.idcontact,
+      String? idcontact,
       this.createdAt,
-      this.updatedAt});
+      this.updatedAt})
+      : idcontact = idcontact ?? const Uuid().v4();
+
+  Contacts.criar(
+      {this.name, this.phone, this.email, this.urlavatar, String? idcontact})
+      : idcontact = idcontact ?? const Uuid().v4();
 
   Contacts.fromJson(Map<String, dynamic> json) {
     objectId = json['objectId'];
