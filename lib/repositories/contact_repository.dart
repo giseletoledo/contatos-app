@@ -10,7 +10,7 @@ class ContactRepository {
   Future<List<Contact>> getContacts() async {
     final result = await _customDio.dio.get(url);
     final data = result.data['results'] as List;
-    final contacts = data.map((item) => Contact.fromJson(item)).toList();
+    final contacts = data.map((item) => Contact.fromMap(item)).toList();
     return contacts;
   }
 
