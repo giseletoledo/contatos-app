@@ -188,7 +188,6 @@ class _AddContactPageState extends State<AddContactPage> {
   }
 
   bool isValidEmail(String email) {
-    // Custom email validation logic, you can use a package like email_validator
     return RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(email);
   }
 }
