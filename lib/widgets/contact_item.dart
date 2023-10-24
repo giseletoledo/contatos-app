@@ -29,7 +29,7 @@ class ContactItem extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.edit),
             onPressed: () {
-              //showEditDialog(context, contact);
+              showEditDialog(context, contact);
             },
           ),
         ],
@@ -53,7 +53,7 @@ class ContactItem extends StatelessWidget {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: const Text("Edit Contact"),
+              title: const Text("Editar Contato"),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -109,7 +109,12 @@ class ContactItem extends StatelessWidget {
                     contact.phone = phoneController.text;
                     contact.email = emailController.text;
                     contact.urlavatar = urlAvatarController.text;
-                    ContactRepository().updateContact(contact);
+
+                    setState(() {
+                      // Limpe a imagem da URL
+                      ContactRepository().updateContact(contact);
+                    });
+
                     Navigator.of(context).pop();
                   },
                 ),
