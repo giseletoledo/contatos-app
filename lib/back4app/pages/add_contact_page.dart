@@ -134,18 +134,15 @@ class _AddContactPageState extends State<AddContactPage> {
       final phone = _phoneController.text;
       final urlAvatar = _urlAvatarController.text;
 
-      final newContact = Contacts.criar(
+      final newContact = Contact.criar(
           name: name,
           phone: phone,
           email: email,
           urlavatar: urlAvatar,
           idcontact: const Uuid().v4());
 
-      final contact = Contact(results: []);
-      contact.results!.add(newContact);
-
       // Chame o método para criar o contato no repositório
-      ContactRepository().createContact(contact);
+      ContactRepository().createContact(newContact);
 
       // Limpe os campos após adicionar o contato
       _nameController.clear();
@@ -167,7 +164,7 @@ class _AddContactPageState extends State<AddContactPage> {
             content: const Text('Por favor, preencha todos os campos.'),
             actions: <Widget>[
               TextButton(
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

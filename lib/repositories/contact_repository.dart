@@ -29,7 +29,7 @@ class ContactRepository {
   Future<void> updateContact(Contact contact) async {
     try {
       await _customDio.dio.put(
-        "$url${contact.results?.first.objectId}",
+        "$url${contact.objectId}",
         data: contact.toJson(),
       );
     } catch (e) {
