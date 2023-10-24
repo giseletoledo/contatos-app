@@ -22,7 +22,7 @@ class ContactRepository {
         data: contact.toJson(),
       );
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
@@ -33,7 +33,7 @@ class ContactRepository {
         data: contact.toJson(),
       );
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
@@ -43,7 +43,7 @@ class ContactRepository {
         "$url$objectId",
       );
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 }
