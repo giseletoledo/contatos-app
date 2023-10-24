@@ -36,16 +36,24 @@ class _AddContactPageState extends State<AddContactPage> {
                 onTap: () {
                   _showImagePreview();
                 },
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundImage: _urlAvatarController.text.isNotEmpty
-                      ? CachedNetworkImageProvider(_urlAvatarNotifier.value)
-                      : null,
-                  child: const Icon(
-                    Icons.camera,
-                    size: 40,
-                    color: Colors.white,
-                  ),
+                child: ValueListenableBuilder<String>(
+                  valueListenable: _urlAvatarNotifier,
+                  builder: (context, valueNotifierAttributeValue, child) {
+                    return CircleAvatar(
+                      radius: 50,
+                      backgroundImage: _urlAvatarController.text.isNotEmpty
+                          ? CachedNetworkImageProvider(
+                              valueNotifierAttributeValue)
+                          : null,
+                      child: valueNotifierAttributeValue.isNotEmpty
+                          ? null
+                          : const Icon(
+                              Icons.camera,
+                              size: 40,
+                              color: Colors.white,
+                            ),
+                    );
+                  },
                 ),
               ),
               const SizedBox(height: 16.0),
@@ -85,6 +93,9 @@ class _AddContactPageState extends State<AddContactPage> {
                 controller: _urlAvatarController,
                 decoration:
                     const InputDecoration(labelText: 'URL da Imagem de Perfil'),
+                onChanged: (value) {
+                  _urlAvatarNotifier.value = value;
+                },
               ),
               const SizedBox(height: 16.0),
               ElevatedButton(
