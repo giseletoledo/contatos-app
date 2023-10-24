@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:contatosapp/pages/add_contact_page.dart';
 import 'package:contatosapp/repositories/contact_repository.dart';
 import 'package:contatosapp/widgets/contact_item.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,12 @@ class _ContactListState extends State<ContactList> {
           title: const Text('Lista de contatos'),
         ),
         floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add), onPressed: () {}),
+            child: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const AddContactPage(),
+              ));
+            }),
         body: Container(
           child: Column(
             children: [
@@ -47,7 +53,7 @@ class _ContactListState extends State<ContactList> {
                   : Expanded(
                       child: ListView.builder(
                           itemCount: _contactList.length,
-                          itemBuilder: (BuildContext bc, int index) {
+                          itemBuilder: (BuildContext context, int index) {
                             var contact = _contactList[index];
                             return Dismissible(
                                 onDismissed:
