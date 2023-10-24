@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../model/contact.dart';
-import '../../repositories/contact_repository.dart';
+import '../model/contact.dart';
+import '../repositories/contact_repository.dart';
 
 class AddContactPage extends StatefulWidget {
   const AddContactPage({super.key});

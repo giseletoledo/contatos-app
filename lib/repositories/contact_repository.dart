@@ -40,7 +40,7 @@ class ContactRepository {
   Future<void> deleteContact(String objectId) async {
     try {
       await _customDio.dio.delete(
-        "$url$objectId",
+        "$url/$objectId",
       );
     } catch (e) {
       rethrow;

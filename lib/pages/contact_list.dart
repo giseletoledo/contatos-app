@@ -1,4 +1,5 @@
 import 'package:contatosapp/repositories/contact_repository.dart';
+import 'package:contatosapp/widgets/contact_item.dart';
 import 'package:flutter/material.dart';
 
 class ContactList extends StatefulWidget {
@@ -48,18 +49,16 @@ class _ContactListState extends State<ContactList> {
                           itemBuilder: (BuildContext bc, int index) {
                             var contact = _contactList[index];
                             return Dismissible(
-                              onDismissed:
-                                  (DismissDirection dismissDirection) async {
-                                await contactRepository
-                                    .deleteContact(contact.objectId);
-                                getContacts();
-                              },
-                              key: Key(contact.objectId),
-                              child: ListTile(
-                                title: Text(contact.name),
-                                trailing: Text(contact.email),
-                              ),
-                            );
+                                onDismissed:
+                                    (DismissDirection dismissDirection) async {
+                                  await contactRepository
+                                      .deleteContact(contact.objectId);
+                                  getContacts();
+                                },
+                                key: Key(contact.objectId),
+                                child: ContactItem(
+                                  contact: contact,
+                                ));
                           }),
                     ),
             ],
