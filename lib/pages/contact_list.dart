@@ -49,7 +49,7 @@ class _ContactListState extends State<ContactList> {
           child: Column(
             children: [
               carregando
-                  ? const CircularProgressIndicator()
+                  ? const Center(child: CircularProgressIndicator())
                   : Expanded(
                       child: ListView.builder(
                           itemCount: _contactList.length,

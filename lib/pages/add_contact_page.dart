@@ -20,6 +20,17 @@ class _AddContactPageState extends State<AddContactPage> {
   final TextEditingController _urlAvatarController = TextEditingController();
   final ValueNotifier<String> _urlAvatarNotifier = ValueNotifier<String>('');
 
+  String? validateUrl(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Este campo é obrigatório.';
+    }
+    if (!value.startsWith('http://') && !value.startsWith('https://')) {
+      return 'A URL deve começar com "http://" ou "https://".';
+    }
+    // Outras validações, se necessário.
+    return null;
+  }
+
   ContactRepository contactRepository = ContactRepository();
   var _contactList = [];
   var carregando = false;
@@ -113,6 +124,7 @@ class _AddContactPageState extends State<AddContactPage> {
                 controller: _urlAvatarController,
                 decoration:
                     const InputDecoration(labelText: 'URL da Imagem de Perfil'),
+                validator: validateUrl,
                 onChanged: (value) {
                   _urlAvatarNotifier.value = value;
                 },
