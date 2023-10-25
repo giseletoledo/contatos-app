@@ -12,6 +12,30 @@ class ContactList extends StatefulWidget {
 }
 
 class _ContactListState extends State<ContactList> {
+  String? validateUrl(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Este campo é obrigatório.';
+    }
+    if (value.startsWith('http://') || value.startsWith('https://')) {
+      // A URL começa com "http://" ou "https://", considerando válida.
+      return null;
+    } else if (value.startsWith('data:image')) {
+      // A URL parece ser uma imagem codificada em base64, considerando inválida.
+      return 'Esta URL parece ser uma imagem codificada em base64.';
+    } else {
+      return 'A URL deve começar com "http://" ou "https://".';
+    }
+  }
+
+  bool isValidUrl(String url) {
+    if (url.isEmpty ||
+        url.startsWith('http://') ||
+        url.startsWith('https://')) {
+      return false;
+    }
+    return true;
+  }
+
   ContactRepository contactRepository = ContactRepository();
   var _contactList = [];
   var carregando = false;
@@ -103,7 +127,8 @@ class _ContactListState extends State<ContactList> {
                     },
                     child: CircleAvatar(
                       radius: 50,
-                      backgroundImage: urlAvatarController.text.isNotEmpty
+                      backgroundImage: urlAvatarController.text.isNotEmpty &&
+                              isValidUrl(urlAvatarController.text)
                           ? CachedNetworkImageProvider(urlAvatarController.text)
                           : null,
                       child: urlAvatarController.text.isNotEmpty
@@ -131,6 +156,7 @@ class _ContactListState extends State<ContactList> {
                     controller: urlAvatarController,
                     decoration: const InputDecoration(
                         labelText: 'URL da Imagem de Perfil'),
+                    validator: validateUrl,
                   ),
                 ],
               ),

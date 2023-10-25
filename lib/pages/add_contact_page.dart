@@ -25,10 +25,27 @@ class _AddContactPageState extends State<AddContactPage> {
       return 'Este campo é obrigatório.';
     }
     if (!value.startsWith('http://') && !value.startsWith('https://')) {
+      // A URL começa com "http://" ou "https://", considerando válida.
       return 'A URL deve começar com "http://" ou "https://".';
+    } else if (value.startsWith('data:image')) {
+      // A URL parece ser uma imagem codificada em base64, considerando inválida.
+      return 'Esta URL parece ser uma imagem codificada em base64.';
     }
-    // Outras validações, se necessário.
     return null;
+  }
+
+  bool isValidUrl(String url) {
+    if (url.isEmpty ||
+        (!url.startsWith('http://') && !url.startsWith('https://'))) {
+      return false; // A URL não começa com "http://" ou "https://", então é inválida.
+    }
+
+    final regex = RegExp('^data:image');
+    if (regex.hasMatch(url)) {
+      return false; // A URL parece ser uma imagem codificada em base64, portanto é inválida.
+    }
+
+    return true;
   }
 
   ContactRepository contactRepository = ContactRepository();
@@ -74,9 +91,9 @@ class _AddContactPageState extends State<AddContactPage> {
                       radius: 50,
                       backgroundImage: _urlAvatarController.text.isNotEmpty
                           ? CachedNetworkImageProvider(
-                              valueNotifierAttributeValue)
+                              _urlAvatarController.text)
                           : null,
-                      child: valueNotifierAttributeValue.isNotEmpty
+                      child: _urlAvatarController.text.isNotEmpty
                           ? null
                           : const Icon(
                               Icons.camera,
@@ -126,7 +143,13 @@ class _AddContactPageState extends State<AddContactPage> {
                     const InputDecoration(labelText: 'URL da Imagem de Perfil'),
                 validator: validateUrl,
                 onChanged: (value) {
-                  _urlAvatarNotifier.value = value;
+                  // Chame a função de validação para verificar a URL em tempo real
+                  bool isValid = isValidUrl(value);
+                  if (isValid) {
+                    _urlAvatarNotifier.value = value;
+                  } else {
+                    value = '';
+                  }
                 },
               ),
               const SizedBox(height: 16.0),
