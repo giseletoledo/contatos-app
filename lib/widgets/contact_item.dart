@@ -1,5 +1,6 @@
 import 'package:contatosapp/model/contact.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ContactItem extends StatelessWidget {
   final Contact contact;
@@ -20,7 +21,8 @@ class ContactItem extends StatelessWidget {
         children: [
           Text("Telefone: ${contact.phone}"),
           Text("Email: ${contact.email}"),
-          Text("Data de criação: ${contact.createdAt}"),
+          Text(
+              "Data de criação: ${contact.createdAt != null ? DateFormat('dd/MM/yyyy').format(contact.createdAt!) : 'Sem data'}")
         ],
       ),
       trailing: Row(

@@ -3,6 +3,7 @@ import 'package:contatosapp/pages/add_contact_page.dart';
 import 'package:contatosapp/repositories/contact_repository.dart';
 import 'package:contatosapp/widgets/contact_item.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ContactList extends StatefulWidget {
   const ContactList({super.key});
