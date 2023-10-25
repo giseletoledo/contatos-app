@@ -3,7 +3,6 @@ import 'package:contatosapp/pages/add_contact_page.dart';
 import 'package:contatosapp/repositories/contact_repository.dart';
 import 'package:contatosapp/widgets/contact_item.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class ContactList extends StatefulWidget {
   const ContactList({super.key});
@@ -67,11 +66,8 @@ class _ContactListState extends State<ContactList> {
                                 child: ContactItem(
                                   contact: contact,
                                   onEditPressed: () async {
-                                    final ancestor =
-                                        context.findRootAncestorStateOfType<
-                                            _ContactListState>();
                                     await showEditDialog(context, contact);
-                                    ancestor?.getContacts();
+                                    getContacts();
                                   },
                                 ));
                           }),
@@ -91,7 +87,7 @@ class _ContactListState extends State<ContactList> {
     TextEditingController urlAvatarController =
         TextEditingController(text: contact.urlavatar);
 
-    showDialog(
+    await showDialog(
       context: context,
       builder: (BuildContext context) {
         return StatefulBuilder(

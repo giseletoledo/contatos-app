@@ -20,6 +20,26 @@ class _AddContactPageState extends State<AddContactPage> {
   final TextEditingController _urlAvatarController = TextEditingController();
   final ValueNotifier<String> _urlAvatarNotifier = ValueNotifier<String>('');
 
+  ContactRepository contactRepository = ContactRepository();
+  var _contactList = [];
+  var carregando = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getContacts();
+  }
+
+  void getContacts() async {
+    setState(() {
+      carregando = true;
+    });
+    _contactList = await contactRepository.getContacts();
+    setState(() {
+      carregando = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,8 +119,9 @@ class _AddContactPageState extends State<AddContactPage> {
               ),
               const SizedBox(height: 16.0),
               ElevatedButton(
-                onPressed: () {
-                  _addContact();
+                onPressed: () async {
+                  await _addContact();
+                  getContacts();
                 },
                 child: const Text('Adicionar Contato'),
               ),
@@ -138,7 +159,7 @@ class _AddContactPageState extends State<AddContactPage> {
     );
   }
 
-  void _addContact() {
+  Future<void> _addContact() async {
     if (_formKey.currentState!.validate()) {
       final name = _nameController.text;
       final email = _emailController.text;
@@ -153,7 +174,7 @@ class _AddContactPageState extends State<AddContactPage> {
           idcontact: const Uuid().v4());
 
       // Chame o método para criar o contato no repositório
-      ContactRepository().createContact(newContact);
+      await ContactRepository().createContact(newContact);
 
       // Limpe os campos após adicionar o contato
       _nameController.clear();
@@ -167,7 +188,7 @@ class _AddContactPageState extends State<AddContactPage> {
       });
     } else {
       // Campos em branco, mostrar um alerta
-      showDialog(
+      await showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
