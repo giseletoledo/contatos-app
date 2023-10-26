@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:contatosapp/pages/add_contact_page.dart';
 import 'package:contatosapp/repositories/contact_repository.dart';
@@ -27,12 +30,23 @@ class _ContactListState extends State<ContactList> {
     }
   }
 
-  bool isValidUrl(String url) {
+  bool isValidUrl(String url, {Uint8List? imageBytes}) {
     if (url.isEmpty ||
-        url.startsWith('http://') ||
-        url.startsWith('https://')) {
-      return false;
+        (!url.startsWith('http://') && !url.startsWith('https://'))) {
+      return false; // A URL não começa com "http://" ou "https://", então é inválida.
     }
+
+    final regex = RegExp('^data:image');
+    if (regex.hasMatch(url)) {
+      try {
+        imageBytes = Uint8List.fromList(base64.decode(url.split(",").last));
+      } catch (e) {
+        // Lida com erros na conversão da URL `data:`
+        imageBytes = null;
+        return false;
+      }
+    }
+
     return true;
   }
 

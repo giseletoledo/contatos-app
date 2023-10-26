@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -34,7 +37,7 @@ class _AddContactPageState extends State<AddContactPage> {
     return null;
   }
 
-  bool isValidUrl(String url) {
+  bool isValidUrl(String url, {Uint8List? imageBytes}) {
     if (url.isEmpty ||
         (!url.startsWith('http://') && !url.startsWith('https://'))) {
       return false; // A URL não começa com "http://" ou "https://", então é inválida.
@@ -42,7 +45,13 @@ class _AddContactPageState extends State<AddContactPage> {
 
     final regex = RegExp('^data:image');
     if (regex.hasMatch(url)) {
-      return false; // A URL parece ser uma imagem codificada em base64, portanto é inválida.
+      try {
+        imageBytes = Uint8List.fromList(base64.decode(url.split(",").last));
+      } catch (e) {
+        // Lida com erros na conversão da URL `data:`
+        imageBytes = null;
+        return false;
+      }
     }
 
     return true;
@@ -143,12 +152,15 @@ class _AddContactPageState extends State<AddContactPage> {
                     const InputDecoration(labelText: 'URL da Imagem de Perfil'),
                 validator: validateUrl,
                 onChanged: (value) {
-                  // Chame a função de validação para verificar a URL em tempo real
-                  bool isValid = isValidUrl(value);
-                  if (isValid) {
-                    _urlAvatarNotifier.value = value;
+                  if (!isValidUrl(value)) {
+                    // Exiba uma mensagem de erro e não permita que o valor inválido seja definido
+                    // como o valor do campo.
+                    _urlAvatarController.value = const TextEditingValue(
+                      text: '',
+                      selection: TextSelection.collapsed(offset: 0),
+                    );
                   } else {
-                    value = '';
+                    _urlAvatarNotifier.value = value;
                   }
                 },
               ),
