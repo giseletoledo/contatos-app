@@ -5,7 +5,16 @@
 *   Criar um banco de dados / Back4App
 *   Fazer um cadastro de pessoa com foto de perfil
 *   Salvar apenas o path da imagem na base de dados
-*   Listar as pessoas em uma lista com sua respectiva foto (em progresso)
+*   Listar as pessoas em uma lista com sua respectiva foto
+
+<p align="center">
+<img width="33%" src="https://github.com/giseletoledo/contatosapp/blob/main/contatosapp1.png" alt="Screenshot cadastro de contato">
+<img width="33%" src="https://github.com/giseletoledo/contatosapp/blob/main/contatosapp2.png" alt="Screenshot cadastro de contato preenchido">
+</p>
+
+<p align="center">
+<img width="50%" src="https://github.com/giseletoledo/contatosapp/blob/main/contatosapp3.png" alt="Screenshot lista de contato">
+</p>
 
 ## Executando o Aplicativo Flutter
 
