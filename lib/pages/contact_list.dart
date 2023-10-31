@@ -78,10 +78,11 @@ class _ContactListState extends State<ContactList> {
         ),
         floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
+            onPressed: () async {
+              await Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const AddContactPage(),
               ));
+              getContacts();
             }),
         body: Container(
           child: Column(

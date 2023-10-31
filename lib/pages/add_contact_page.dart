@@ -53,29 +53,10 @@ class _AddContactPageState extends State<AddContactPage> {
         return false;
       }
     }
-
     return true;
   }
 
-  ContactRepository contactRepository = ContactRepository();
-  var _contactList = [];
   var carregando = false;
-
-  @override
-  void initState() {
-    super.initState();
-    getContacts();
-  }
-
-  void getContacts() async {
-    setState(() {
-      carregando = true;
-    });
-    _contactList = await contactRepository.getContacts();
-    setState(() {
-      carregando = false;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +149,6 @@ class _AddContactPageState extends State<AddContactPage> {
               ElevatedButton(
                 onPressed: () async {
                   await _addContact();
-                  getContacts();
                 },
                 child: const Text('Adicionar Contato'),
               ),
